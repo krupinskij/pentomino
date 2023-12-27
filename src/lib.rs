@@ -38,5 +38,7 @@ fn match_blocks_rec(board: &mut Board, blocks: &Vec<Block>, i: usize) {
                 }
             }
         }
+    } else {
+        println!("{}", board)
     }
 }
