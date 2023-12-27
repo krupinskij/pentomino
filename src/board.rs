@@ -1,10 +1,17 @@
 use crate::block::{Block, Variant};
+use colored::Color;
 
 #[derive(Debug)]
 pub struct Board {
     pub height: u16,
     pub width: u16,
-    fields: Vec<Vec<char>>,
+    fields: Vec<Vec<Field>>,
+}
+
+#[derive(Debug, Clone)]
+enum Field {
+    Block(Color),
+    Empty,
 }
 
 impl Board {
@@ -12,7 +19,7 @@ impl Board {
         Board {
             height,
             width,
-            fields: vec![vec![' '; usize::from(height)]; usize::from(width)],
+            fields: vec![vec![Field::Empty; usize::from(height)]; usize::from(width)],
         }
     }
 
@@ -22,7 +29,7 @@ impl Board {
             let pos_y = usize::from(b_y) + usize::from(*y);
 
             if let Some(col) = self.fields.get(pos_x) {
-                if let Some(' ') = col.get(pos_y) {
+                if let Some(Field::Empty) = col.get(pos_y) {
                     continue;
                 } else {
                     return false;
@@ -35,7 +42,7 @@ impl Board {
             let pos_x = usize::from(b_x) + usize::from(*x);
             let pos_y = usize::from(b_y) + usize::from(*y);
 
-            self.fields[pos_x][pos_y] = block.c;
+            self.fields[pos_x][pos_y] = Field::Block(block.color);
         }
         println!("{:?}", self.fields);
         return true;
@@ -46,7 +53,7 @@ impl Board {
             let pos_x = usize::from(b_x) + usize::from(*x);
             let pos_y = usize::from(b_y) + usize::from(*y);
 
-            self.fields[pos_x][pos_y] = ' ';
+            self.fields[pos_x][pos_y] = Field::Empty;
         }
     }
 }

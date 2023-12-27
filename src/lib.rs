@@ -8,11 +8,11 @@ pub fn run() {
     let board = Board::new(2, 5);
     let mut blocks: Vec<Block> = Vec::new();
 
-    if let Some(block) = Block::build('L', '1') {
+    if let Some(block) = Block::build('L') {
         blocks.push(block);
     }
 
-    if let Some(block) = Block::build('L', '2') {
+    if let Some(block) = Block::build('L') {
         blocks.push(block);
     }
 
@@ -28,7 +28,7 @@ fn match_blocks_rec(board: &mut Board, blocks: &Vec<Block>, i: usize) {
         for variant in block.variants.iter() {
             for x in 0..board.width {
                 for y in 0..board.height {
-                    let is_added = board.try_add_block(x, y, &variant, &block);
+                    let is_added = board.try_add_block(x, y, &variant, block);
 
                     if is_added {
                         match_blocks_rec(board, &blocks, i + 1);

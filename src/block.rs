@@ -1,9 +1,11 @@
+use colored::Color;
+
 pub type Variant = [(u8, u8); 5];
 
 #[derive(Debug)]
 pub struct Block {
     pub variants: Vec<Variant>,
-    pub c: char,
+    pub color: Color,
 }
 
 struct Config {
@@ -15,7 +17,7 @@ struct Config {
 }
 
 impl Block {
-    fn new(variant: Variant, config: Config, c: char) -> Block {
+    fn new(variant: Variant, config: Config) -> Block {
         let mut variants = vec![variant];
 
         if !config.s_rotation {
@@ -48,11 +50,15 @@ impl Block {
 
         Block {
             variants: mirrored_variants,
-            c,
+            color: Color::TrueColor {
+                r: rand::random::<u8>(),
+                g: rand::random::<u8>(),
+                b: rand::random::<u8>(),
+            },
         }
     }
 
-    pub fn build(block_type: char, c: char) -> Option<Block> {
+    pub fn build(block_type: char) -> Option<Block> {
         match block_type {
             // 'F' => Some(Block::new(
             //     [(1, 0), (2, 0), (0, 1), (1, 1), (1, 2)],
@@ -83,7 +89,6 @@ impl Block {
                     s_point: false,
                     s_rotation: false,
                 },
-                c,
             )),
             // 'N' => Some(Block::new(
             //     [(1, 0), (1, 1), (0, 2), (1, 2), (0, 3)],
