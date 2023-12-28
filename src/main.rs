@@ -1,3 +1,12 @@
+use pentomino::config::Config;
+use std::env;
+use std::process;
+
 fn main() {
-    pentomino::run();
+    let config = Config::build(env::args()).unwrap_or_else(|err| {
+        eprintln!("Problem parsing arguments: {err}");
+        process::exit(1);
+    });
+
+    pentomino::run(config);
 }

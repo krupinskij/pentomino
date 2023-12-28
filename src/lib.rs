@@ -1,20 +1,20 @@
 use block::Block;
 use board::Board;
+use config::Config;
 
 mod block;
 mod board;
+pub mod config;
 
-pub fn run() {
-    let board = Board::new(2, 5);
+pub fn run(config: Config) {
+    let board = Board::new(config.height, config.width);
     let mut blocks: Vec<Block> = Vec::new();
 
-    if let Some(block) = Block::build('L') {
-        blocks.push(block);
-    }
-
-    if let Some(block) = Block::build('L') {
-        blocks.push(block);
-    }
+    config.blocks.chars().for_each(|c| {
+        if let Some(block) = Block::build(c) {
+            blocks.push(block);
+        };
+    });
 
     match_blocks(board, blocks)
 }
