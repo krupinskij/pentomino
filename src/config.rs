@@ -6,7 +6,7 @@ pub struct Config {
     pub width: u16,
 }
 
-const BLOCKS: &str = "FILNPTUVWXYZ";
+const BLOCKS: &str = "WVXZFUTNYLIP";
 
 impl Config {
     pub fn build(mut args: impl Iterator<Item = String>) -> Result<Config, &'static str> {

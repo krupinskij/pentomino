@@ -1,5 +1,6 @@
 use crate::block::{Block, Variant};
 use colored::{Colorize, CustomColor};
+use std::collections::HashSet;
 use std::fmt::{self, Display};
 
 pub struct Board {
@@ -69,6 +70,41 @@ impl Board {
             let pos_y = usize::from(b_y) + usize::from(*y);
 
             self.fields[pos_y][pos_x] = Field::Empty;
+        }
+    }
+
+    pub fn check_empty_fields(&self) -> bool {
+        for x in 0..self.width {
+            for y in 0..self.height {
+                let mut set: HashSet<(u16, u16)> = HashSet::new();
+                self.check_empty_field(x, y, &mut set);
+                if set.len() % 5 != 0 {
+                    return false;
+                }
+            }
+        }
+
+        true
+    }
+
+    fn check_empty_field(&self, x: u16, y: u16, set: &mut HashSet<(u16, u16)>) {
+        if let Field::Empty = self.fields[usize::from(y)][usize::from(x)] {
+            if set.contains(&(x, y)) {
+                return;
+            }
+            set.insert((x, y));
+            if x > 0 {
+                self.check_empty_field(x - 1, y, set)
+            }
+            if x < (self.width - 1) {
+                self.check_empty_field(x + 1, y, set)
+            }
+            if y > 0 {
+                self.check_empty_field(x, y - 1, set)
+            }
+            if y < (self.height - 1) {
+                self.check_empty_field(x, y + 1, set)
+            }
         }
     }
 }

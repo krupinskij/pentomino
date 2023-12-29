@@ -34,7 +34,10 @@ fn match_blocks_rec(board: &mut Board, blocks: &Vec<Block>, i: usize, solutions:
                     let is_added = board.try_add_block(x, y, &variant, block);
 
                     if is_added {
-                        match_blocks_rec(board, &blocks, i + 1, solutions);
+                        let are_empty_correct = board.check_empty_fields();
+                        if are_empty_correct {
+                            match_blocks_rec(board, &blocks, i + 1, solutions);
+                        }
 
                         board.clear_block(x, y, &variant)
                     }
