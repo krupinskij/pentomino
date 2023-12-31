@@ -41,8 +41,6 @@ impl Config {
 
                         let str = String::from_iter(chars_vector);
 
-                        println!("{} {}", str, blocks);
-
                         config.blocks = str;
                     } else {
                         return Err("Didn't get value for \"blocks\" argument.");
@@ -83,5 +81,13 @@ impl Config {
         }
 
         Ok(config)
+    }
+
+    pub fn validate(config: &Config) -> Result<(), &'static str> {
+        if config.blocks.len() != usize::from(config.height * config.width) {
+            return Err("Board size mismatches number of blocks.");
+        }
+
+        Ok(())
     }
 }

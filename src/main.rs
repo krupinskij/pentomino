@@ -8,5 +8,10 @@ fn main() {
         process::exit(1);
     });
 
+    Config::validate(&config).unwrap_or_else(|err| {
+        eprintln!("Problem validating configuration: {err}");
+        process::exit(1);
+    });
+
     pentomino::run(config);
 }
