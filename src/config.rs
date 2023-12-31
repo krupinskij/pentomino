@@ -23,14 +23,27 @@ impl Config {
                 "--blocks" | "-b" => {
                     if let Some(blocks) = args.next() {
                         let blocks = blocks.to_uppercase();
+                        let chars = blocks.chars();
 
-                        let is_forbidden_letter = blocks.chars().any(|c| !BLOCKS.contains(c));
+                        let is_forbidden_letter = chars.clone().any(|c| !BLOCKS.contains(c));
 
                         if is_forbidden_letter {
                             return Err("Found forbidden letter in \"blocks\" argument.");
                         }
 
-                        config.blocks = blocks;
+                        let mut chars_vector: Vec<char> = chars.collect();
+                        chars_vector.sort_by(|c1, c2| {
+                            let c1_pos = BLOCKS.find(*c1);
+                            let c2_pos = BLOCKS.find(*c2);
+
+                            c1_pos.cmp(&c2_pos)
+                        });
+
+                        let str = String::from_iter(chars_vector);
+
+                        println!("{} {}", str, blocks);
+
+                        config.blocks = str;
                     } else {
                         return Err("Didn't get value for \"blocks\" argument.");
                     }
