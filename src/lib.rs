@@ -1,10 +1,11 @@
-use block::Block;
-use board::Board;
-use config::Config;
-
 mod block;
 mod board;
 pub mod config;
+mod helpers;
+
+use block::Block;
+use board::Board;
+use config::Config;
 
 pub fn run(config: Config) {
     let board = Board::new(config.height, config.width);

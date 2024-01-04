@@ -1,4 +1,5 @@
-use crate::block::{Block, Variant};
+use crate::block::Block;
+use crate::helpers::Variant;
 use colored::{Colorize, CustomColor};
 use std::collections::HashSet;
 use std::fmt::{self, Display};

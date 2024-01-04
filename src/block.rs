@@ -1,6 +1,5 @@
+use crate::helpers::*;
 use colored::CustomColor;
-
-pub type Variant = [(u8, u8); 5];
 
 pub struct Block {
     pub variants: Vec<Variant>,
@@ -182,12 +181,4 @@ impl Block {
             _ => None,
         }
     }
-}
-
-fn rotate(arr: &Variant, height: u8) -> Variant {
-    arr.map(|(x, y)| (height - y - 1, x))
-}
-
-fn mirror(arr: &Variant, width: u8) -> Variant {
-    arr.map(|(x, y)| (width - x - 1, y))
 }
