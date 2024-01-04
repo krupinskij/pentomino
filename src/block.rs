@@ -182,3 +182,128 @@ impl Block {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn build_block() {
+        match Block::build('F') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('I') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 2);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('L') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('N') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('P') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('T') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('U') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('V') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('W') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('X') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 1);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('Y') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('Z') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('G') {
+            Some(_) => {
+                panic!();
+            }
+            None => {
+                assert!(true);
+            }
+        }
+    }
+}
