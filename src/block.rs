@@ -1,6 +1,5 @@
+use crate::helpers::*;
 use colored::CustomColor;
-
-pub type Variant = [(u8, u8); 5];
 
 pub struct Block {
     pub variants: Vec<Variant>,
@@ -184,10 +183,127 @@ impl Block {
     }
 }
 
-fn rotate(arr: &Variant, height: u8) -> Variant {
-    arr.map(|(x, y)| (height - y - 1, x))
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-fn mirror(arr: &Variant, width: u8) -> Variant {
-    arr.map(|(x, y)| (width - x - 1, y))
+    #[test]
+    fn build_block() {
+        match Block::build('F') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('I') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 2);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('L') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('N') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('P') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('T') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('U') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('V') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('W') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('X') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 1);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('Y') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 8);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('Z') {
+            Some(block) => {
+                assert_eq!(block.variants.len(), 4);
+            }
+            None => {
+                panic!();
+            }
+        }
+
+        match Block::build('G') {
+            Some(_) => {
+                panic!();
+            }
+            None => {
+                assert!(true);
+            }
+        }
+    }
 }

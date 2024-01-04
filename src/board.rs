@@ -1,4 +1,5 @@
-use crate::block::{Block, Variant};
+use crate::block::Block;
+use crate::helpers::Variant;
 use colored::{Colorize, CustomColor};
 use std::collections::HashSet;
 use std::fmt::{self, Display};
@@ -9,7 +10,7 @@ pub struct Board {
     fields: Vec<Vec<Field>>,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq)]
 enum Field {
     Block(CustomColor),
     Empty,
@@ -106,5 +107,94 @@ impl Board {
                 self.check_empty_field(x, y + 1, set)
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn create_board_and_try_add_block() {
+        let height = 5;
+        let width = 1;
+
+        let mut board = Board::new(height, width);
+        let block = Block::build('I').unwrap();
+
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+
+        assert!(is_added);
+        assert_eq!(board.fields[0][0], Field::Block(block.color));
+
+        let mut board = Board::new(height, width);
+        let block = Block::build('F').unwrap();
+
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+
+        assert!(!is_added);
+        assert_eq!(board.fields[0][0], Field::Empty);
+
+        let mut board = Board::new(1, 1);
+        let block = Block::build('I').unwrap();
+
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+
+        assert!(!is_added);
+        assert_eq!(board.fields[0][0], Field::Empty);
+    }
+
+    #[test]
+    fn create_board_and_clear() {
+        let height = 5;
+        let width = 2;
+
+        let mut board = Board::new(height, width);
+        let block = Block::build('I').unwrap();
+
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+        assert!(is_added);
+
+        let is_added = board.try_add_block(1, 0, &block.variants[0], &block);
+        assert!(is_added);
+
+        assert_eq!(board.fields[0][0], Field::Block(block.color));
+        assert_eq!(board.fields[0][1], Field::Block(block.color));
+
+        board.clear_block(0, 0, &block.variants[0]);
+        assert_eq!(board.fields[0][0], Field::Empty);
+        assert_eq!(board.fields[0][1], Field::Block(block.color));
+    }
+
+    #[test]
+    fn create_board_and_check_empty_fields() {
+        let board = Board::new(1, 1);
+        let is_correct = board.check_empty_fields();
+        assert!(!is_correct);
+
+        let board = Board::new(5, 3);
+        let is_correct = board.check_empty_fields();
+        assert!(is_correct);
+
+        let mut board = Board::new(5, 3);
+        let block = Block::build('I').unwrap();
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+        assert!(is_added);
+        let is_correct = board.check_empty_fields();
+        assert!(is_correct);
+
+        let mut board = Board::new(5, 3);
+        let block = Block::build('I').unwrap();
+        let is_added = board.try_add_block(1, 0, &block.variants[0], &block);
+        assert!(is_added);
+        let is_correct = board.check_empty_fields();
+        assert!(is_correct);
+
+        let mut board = Board::new(5, 3);
+        let block = Block::build('F').unwrap();
+        let is_added = board.try_add_block(0, 0, &block.variants[0], &block);
+        assert!(is_added);
+        let is_correct = board.check_empty_fields();
+        assert!(!is_correct);
     }
 }
